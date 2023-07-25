@@ -1,38 +1,69 @@
 <template>
-    <div class="add-food">
+  <div class="add-food">
     <div class="container">
       <div class="add-food__content">
         <div class="add-food__title">
-          Добавьте блюда, которые заказывала ваша компания, а также укажите того, кто платит.
+          Добавьте блюда, которые заказывала ваша компания, а также укажите
+          того, кто платит.
         </div>
-        <button class="add-food__add-btn" @click="$store.commit('addFoodStore')">Добавить</button>
+        <button
+          class="add-food__add-btn"
+          @click="$store.commit('addFoodStore')"
+        >
+          Добавить
+        </button>
         <hr class="line" />
         <div class="add-food__list" v-if="$store.state.foodsStore.length !== 0">
           <div
             class="add-food__listOfFood"
-            v-for="food in $store.state.foodsStore"
+            v-for="(food, index) in $store.state.foodsStore"
             :key="food.id"
           >
-            <input
-              v-model="food.name"
-              type="text"
-              class="food-name"
-              placeholder="Название"
-            />
-            <input
-              v-model="food.price"
-              type="number"
-              class="food-price"
-              placeholder="Цена"
-            />
-            <button class="add-food__del-btn" @click="$store.commit('deleteFoodStore', food)">
-              Удалить
-            </button>
+            <div class="listOfFood__header">
+              <input
+                v-model="food.name"
+                type="text"
+                class="food-name"
+                placeholder="Название"
+              />
+              <input
+                v-model="food.price"
+                type="number"
+                class="food-price"
+                placeholder="Цена"
+              />
+              <b-button
+                v-b-toggle="'accordion' + index"
+                variant="primary"
+                class="btn__collapse"
+                >+</b-button
+              >
+              <button
+                class="add-food__del-btn"
+                @click="$store.commit('deleteFoodStore', food)"
+              >
+                Удалить
+              </button>
+            </div>
+
+            <b-collapse
+              :id="'accordion' + index"
+              class="collapse__content"
+              :accordion="'foods-accordion' + index"
+            >
+              <b-card class="collapse__card" style="padding: 0">
+                <b-form-select v-model="selected" :options="$store.state.personsStore"></b-form-select>
+              </b-card>
+            </b-collapse>
           </div>
         </div>
         <div class="info-block" v-else>Здесь пока ничего нет...</div>
       </div>
-      <button class="next-page-btn" v-if="$store.state.foodsStore.length > 0" @click="nextPage">
+      <button
+        class="next-page-btn"
+        v-if="$store.state.foodsStore.length > 0"
+        @click="nextPage"
+      >
         Рассчитать
       </button>
     </div>
@@ -40,9 +71,7 @@
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -121,13 +150,21 @@
 
 .add-food__listOfFood {
   display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.408);
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.listOfFood__header {
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 10px;
 }
 
-.food-name, 
+.food-name,
 .food-price {
   width: 100%;
   padding: 0 10px;
@@ -144,6 +181,47 @@
   border: 2px solid rgba(255, 255, 255, 0.408);
 }
 
+.btn__collapse {
+  background-color: #f3b00e !important;
+  margin: 0 5px;
+  border-radius: 50px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.btn__collapse:hover {
+  background-color: #f3ae0e87 !important;
+}
+
+.btn__collapse:active {
+  background-color: #f3ae0e49 !important;
+}
+
+.btn__collapse,
+.btn__collapse:hover,
+.btn__collapse:active {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.collapse__content {
+  background-color: transparent !important;
+
+  .card {
+    background-color: transparent !important;
+
+    .card-body {
+      background-color: transparent !important;
+      padding: 3px !important;
+    }
+  }
+}
+
+
+.collapse__card .card-body {
+  padding: 3px !important;
+}
 .add-food__del-btn {
   background-color: #760910;
   border: 2px solid #760910;
@@ -159,7 +237,6 @@
 .add-food__del-btn:active {
   background-color: #76091049;
 }
-
 
 .info-block {
   font-size: 20px;
