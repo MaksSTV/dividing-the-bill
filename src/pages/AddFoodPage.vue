@@ -52,7 +52,35 @@
               :accordion="'foods-accordion' + index"
             >
               <b-card class="collapse__card" style="padding: 0">
-                <b-form-select v-model="selected" :options="$store.state.personsStore"></b-form-select>
+                <p>Кто оплачивает позицию:</p>
+                <b-form-select
+                  v-model="food.payerId"
+                  :options="$store.state.personsStore"
+                  class="b-select-custom"
+                  value-field="id"
+                  text-field="name"
+                >
+                </b-form-select>
+                <div>
+                  <b-form-group>
+                    
+
+                    <template v-slot="{ ariaDescribedby }">
+                      <b-form-checkbox-group
+                        v-model="food.whoOrderedFood"
+                        value-field="id"
+                        text-field="name"
+                        :options="$store.state.personsStore"
+                        :aria-describedby="ariaDescribedby"
+                      ></b-form-checkbox-group>
+                    </template>
+                  </b-form-group>
+
+                  <div>
+                    Selected: <strong>{{ food.whoOrderedFood }}</strong
+                    ><br />
+                  </div>
+                </div>
               </b-card>
             </b-collapse>
           </div>
@@ -71,7 +99,32 @@
 </template>
 
 <script>
-export default {};
+export default {
+    /*methods: {
+      toggleAll(e) {
+        console.log(e)
+      }
+    },*/
+
+    /**
+     * <template #label>
+                      <b>Кто ел:</b><br />
+
+                      <b-form-checkbox
+
+                        v-model="checked"
+                        @change="
+                          food.whoOrderedFood = checked ? $store.state.personsStore.map((item) => item.id) : []
+                        "
+                        value-field="id"
+                        text-field="name"
+                      >
+                      Все
+                      </b-form-checkbox>
+                    </template>
+     */
+    
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -200,7 +253,10 @@ export default {};
 
 .btn__collapse,
 .btn__collapse:hover,
-.btn__collapse:active {
+.btn__collapse:active,
+.b-select-custom,
+.b-select-custom:hover,
+.b-select-custom:active {
   border-color: transparent !important;
   box-shadow: none !important;
 }
@@ -218,6 +274,15 @@ export default {};
   }
 }
 
+.b-select-custom {
+  background: rgba(107, 107, 107, 0.708);
+  color: #fff;
+  box-shadow: none !important;
+}
+
+.form-group{
+  display: flex;
+}
 
 .collapse__card .card-body {
   padding: 3px !important;
