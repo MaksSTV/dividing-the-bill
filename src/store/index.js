@@ -39,7 +39,7 @@ export default createStore({
 
   mutations: {
     addPersonStore(state) {
-      state.personsStore.push({ id: Date.now(), name: "" });
+      state.personsStore.push({ id: Date.now(), name: "", whomMoney: [] });
     },
 
     deletePersonStore(state, person) {
@@ -59,5 +59,30 @@ export default createStore({
     deleteFoodStore(state, food) {
       state.foodsStore = state.foodsStore.filter((f) => f !== food);
     },
+
+    calculate(state){
+
+      state.personsStore.forEach(p => {
+        p.whomMoney.length = 0
+      })
+      
+
+      state.personsStore.forEach(person => {
+
+        state.foodsStore.forEach(food => {
+          if(food.whoOrderedFood.includes(person.id) && person.id !== food.payerId){
+            let index = person.whomMoney.findIndex(item => item.toWhom === food.payerId)
+            if(index !== -1){
+              person.whomMoney[index].amount +=  food.price / food.whoOrderedFood.length
+            }
+            else{
+              person.whomMoney.push({toWhom: food.payerId, amount: food.price / food.whoOrderedFood.length})
+            }
+            
+          }
+        })
+      })
+    },
+
   },
 });

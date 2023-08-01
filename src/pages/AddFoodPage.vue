@@ -130,7 +130,9 @@ export default {
       if (isEmptyField) {
         alert(messageField);
       } else {
+        this.$store.commit('calculate')
         this.$router.push("/calculate");
+
       }
     },
   },
