@@ -56,7 +56,7 @@ export default {
 
   methods: {
     nextPage() {
-      const isEmptyField = this.$store.getters.findEmptyField;
+      const isEmptyField = this.$store.getters.findEmptyFieldName;
       
       if (isEmptyField) {
         alert("Пожалуйста, дайте имена всем гостям");

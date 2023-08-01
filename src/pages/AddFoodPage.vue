@@ -64,9 +64,7 @@
                 <div>
                   <p class="whoOrdered__title">Кто ел:</p>
                   <b-form-group>
-                    
                     <template v-slot="{ ariaDescribedby }">
-                      
                       <b-form-checkbox-group
                         v-model="food.whoOrderedFood"
                         value-field="id"
@@ -91,7 +89,7 @@
       <button
         class="next-page-btn"
         v-if="$store.state.foodsStore.length > 0"
-        @click="nextPage"
+        @click="calculating"
       >
         Рассчитать
       </button>
@@ -101,13 +99,13 @@
 
 <script>
 export default {
-    /*methods: {
+  /*methods: {
       toggleAll(e) {
         console.log(e)
       }
     },*/
 
-    /**
+  /**
      * <template #label>
                       <b>Кто ел:</b><br />
 
@@ -124,8 +122,21 @@ export default {
                       </b-form-checkbox>
                     </template>
      */
-    
-  };
+
+  methods: {
+    calculating() {
+      const [isEmptyField, messageField] = this.$store.getters.findEmptyFieldFood;
+
+      if (isEmptyField) {
+        alert(messageField);
+      } else {
+        this.$store.commit('calculate')
+        this.$router.push("/calculate");
+
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -282,14 +293,13 @@ export default {
   margin-bottom: 5px;
 }
 
-.form-group{
+.form-group {
   display: flex;
 }
 
-.whoOrdered__title{
+.whoOrdered__title {
   margin: 0 !important;
 }
-
 
 .collapse__card .card-body {
   padding: 3px !important;
