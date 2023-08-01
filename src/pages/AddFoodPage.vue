@@ -52,7 +52,7 @@
               :accordion="'foods-accordion' + index"
             >
               <b-card class="collapse__card" style="padding: 0">
-                <p>Кто оплачивает позицию:</p>
+                <p class="whoPayer__title">Кто оплачивает позицию:</p>
                 <b-form-select
                   v-model="food.payerId"
                   :options="$store.state.personsStore"
@@ -62,10 +62,11 @@
                 >
                 </b-form-select>
                 <div>
+                  <p class="whoOrdered__title">Кто ел:</p>
                   <b-form-group>
                     
-
                     <template v-slot="{ ariaDescribedby }">
+                      
                       <b-form-checkbox-group
                         v-model="food.whoOrderedFood"
                         value-field="id"
@@ -278,11 +279,17 @@ export default {
   background: rgba(107, 107, 107, 0.708);
   color: #fff;
   box-shadow: none !important;
+  margin-bottom: 5px;
 }
 
 .form-group{
   display: flex;
 }
+
+.whoOrdered__title{
+  margin: 0 !important;
+}
+
 
 .collapse__card .card-body {
   padding: 3px !important;
