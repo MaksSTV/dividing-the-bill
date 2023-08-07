@@ -3,8 +3,35 @@
     <div class="container">
       <div class="calculate__content">
         <div class="calculate__title">Счет</div>
-        
-
+        <div class="calculate_person-list">
+          <div
+            class="calculate_person"
+            v-for="(person, index) in $store.state.personsStore"
+            :key="index"
+          >
+            <div class="calculate_person-title">
+              {{ person.name }}
+            </div>
+            <div
+              class="calculate_person-text"
+              v-if="person.whomMoney.length != 0"
+            >
+              <div
+                class="calculate_person-list-whomMoney"
+                v-for="(toWhomPerson, i) in person.whomMoney"
+                :key="i"
+              >
+                <div class="calculate_person-list-whomMoney-text">
+                  Должен {{ toWhomPerson.toWhomName }}:
+                  {{ toWhomPerson.amount.toFixed(2) }}р
+                </div>
+              </div>
+            </div>
+            <div class="calculate_person-text" v-else>
+              Никому ничего не должен
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -38,7 +65,25 @@ export default {};
   animation: add-food-animate 0.65s ease-in-out;
 }
 
-.calculate__title{
-    font-size: 30px;
+.calculate__title {
+  font-size: 30px;
+}
+
+.calculate_person-list{
+  width: 100%;
+  padding: 30px;
+}
+
+.calculate_person{
+  margin-top: 10px;
+  border-bottom: 2px solid #b49f9f;
+}
+
+.calculate_person-title{
+  font-size: 23px;
+}
+
+.calculate_person-text{
+  font-size: 17px;
 }
 </style>
